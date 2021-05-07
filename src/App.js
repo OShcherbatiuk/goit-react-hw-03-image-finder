@@ -5,9 +5,9 @@ import ImageGallery from './components/ImageGallery';
 import Button from './components/Button';
 import Loader from 'react-loader-spinner';
 import imgApi from './services/img-api';
+import Modal from './components/Modal';
 
 import s from './App.module.css';
-// import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 class App extends Component {
   state = {
@@ -16,6 +16,8 @@ class App extends Component {
     searchQuery: '',
     isLoading: false,
     error: null,
+    showModal: false,
+    modalImageURL: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -50,26 +52,46 @@ class App extends Component {
           currentPage: prevState.currentPage + 1,
         }));
       })
+      .then(() => {
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: 'smooth',
+        });
+      })
       .catch(error => this.setState({ error }))
       .finally(() => this.setState({ isLoading: false }));
   };
 
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
   render() {
-    const { hits, isLoading, error } = this.state;
+    const { hits, isLoading, error, showModal } = this.state;
     const shouldRenderLoadMoreButton = hits.length > 0 && !isLoading;
 
     return (
       <div className={s.App}>
+        {showModal && <Modal onClose={this.toggleModal} />}
         {error && <h1>try again later</h1>}
         <Searchbar onSubmit={this.onChangeQuery} />
-        <ImageGallery hits={hits} id={hits.id} webformatURL={hits.previewURL} />
+        <ImageGallery
+          hits={hits}
+          id={hits.id}
+          webformatURL={hits.previewURL}
+          modalFormatURL={hits.largeImageURL}
+          onClick={this.toggleModal}
+        />
         {isLoading && (
           <Loader
-            type="Puff"
-            color="#00BFFF"
-            height={100}
-            width={100}
-            timeout={1000} //3 secs
+            className={s.Loader}
+            type="ThreeDots"
+            color="#3f51b5"
+            height={80}
+            width={80}
+            timeout={3000}
           />
         )}
         {shouldRenderLoadMoreButton && <Button onBtnClick={this.fetchHits} />}
