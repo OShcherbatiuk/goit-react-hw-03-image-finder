@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import s from './ImageGalleryItem.module.css';
 
 const ImageGalleryItem = ({ src, onClick, modalFormatURL, onFocus }) => {
@@ -12,6 +14,13 @@ const ImageGalleryItem = ({ src, onClick, modalFormatURL, onFocus }) => {
       />
     </li>
   );
+};
+
+ImageGalleryItem.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  onFocus: PropTypes.func.isRequired,
+  src: PropTypes.string,
+  modalFormatURL: PropTypes.string,
 };
 
 export default ImageGalleryItem;

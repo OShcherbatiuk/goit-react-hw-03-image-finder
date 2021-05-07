@@ -69,7 +69,6 @@ class App extends Component {
   };
 
   onImgFocus = e => {
-    console.log(e.target.srcset);
     this.setState({
       modalImageURL: e.target.srcset,
     });
