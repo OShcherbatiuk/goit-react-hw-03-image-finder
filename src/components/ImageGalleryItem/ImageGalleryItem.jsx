@@ -1,14 +1,14 @@
 import s from './ImageGalleryItem.module.css';
 
-const ImageGalleryItem = ({ src, onClick, modalFormatURL }) => {
+const ImageGalleryItem = ({ src, onClick, modalFormatURL, onFocus }) => {
   return (
     <li className={s.ImageGalleryItem}>
       <img
-        url={modalFormatURL}
+        srcSet={modalFormatURL}
         src={src}
         alt=""
         className={s.ImageGalleryItem_image}
-        onClick={onClick}
+        onClick={e => onClick(onFocus(e))}
       />
     </li>
   );

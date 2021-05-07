@@ -2,7 +2,7 @@ import ImageGalleryItem from '../ImageGalleryItem';
 
 import s from './ImageGallery.module.css';
 
-const ImageGallery = ({ hits, onClick }) => {
+const ImageGallery = ({ hits, onClick, onFocus }) => {
   return (
     <>
       <ul className={s.ImageGallery}>
@@ -12,6 +12,7 @@ const ImageGallery = ({ hits, onClick }) => {
             src={webformatURL}
             modalFormatURL={largeImageURL}
             onClick={onClick}
+            onFocus={onFocus}
           />
         ))}
       </ul>
